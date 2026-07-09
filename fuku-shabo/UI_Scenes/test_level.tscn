@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://cah1k2hocn8t3"]
+
+[node name="Test_Level" type="Node2D" unique_id=11065201]
+
+[node name="Label" type="Label" parent="." unique_id=170664712]
+offset_left = 251.0
+offset_top = 183.0
+offset_right = 652.0
+offset_bottom = 346.0
+text = "Level 1 exmpl
+"
