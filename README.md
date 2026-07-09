@@ -1,3 +1,3 @@
-#Fuku-Shabo game
+# Fuku-Shabo game
 
 Text...
