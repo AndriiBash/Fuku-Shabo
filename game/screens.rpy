@@ -289,47 +289,56 @@ style quick_button_text:
 
 screen navigation():
 
+    $ submenus = ["history", "save", "load", "preferences", "about"]
+    $ dim_buttons = any(renpy.get_screen(s) is not None for s in submenus)
+   
+
+
+    text gui.game_title:
+        style "game_title_text"
+        xalign 0.5
+        yalign 0.25
+    
+
     vbox:
         style_prefix "navigation"
 
-        xpos gui.navigation_xpos
-        yalign 0.5
+        if dim_buttons:
+            at Transform(matrixcolor=BrightnessMatrix(0.8))
 
-        spacing gui.navigation_spacing
+
+        xalign 0.185
+        yalign 0.739
+
+        spacing 1
 
         if main_menu:
 
-            textbutton _("Почати") action Start()
+            textbutton _("ПОЧАТИ") action Start() sensitive not dim_buttons
 
         else:
 
-            textbutton _("Історія") action ShowMenu("history")
+            textbutton _("ІСТОРІЯ") action ShowMenu("history") sensitive not dim_buttons
 
-            textbutton _("Зберегти") action ShowMenu("save")
+            textbutton _("ЗБЕРЕГТИ") action ShowMenu("save") sensitive not dim_buttons
 
-        textbutton _("Завантажити") action ShowMenu("load")
+        textbutton _("ЗАВАНТАЖИТИ") action ShowMenu("load") selected False sensitive not dim_buttons
 
-        textbutton _("Налаштування") action ShowMenu("preferences")
+        textbutton _("НАЛАШТУВАННЯ") action ShowMenu("preferences") selected False sensitive not dim_buttons
 
         if _in_replay:
 
-            textbutton _("Закінчити повтор") action EndReplay(confirm=True)
+            textbutton _("Закінчити повтор") action EndReplay(confirm=True) sensitive not dim_buttons
 
         elif not main_menu:
 
-            textbutton _("Головне меню") action MainMenu()
+            textbutton _("Головне меню") action MainMenu() sensitive not dim_buttons
 
-        textbutton _("Про гру") action ShowMenu("about")
-
-        if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
-
-            ## Довідка не є необхідною або доречною для мобільних пристроїв.
-            textbutton _("Довідка") action ShowMenu("help")
+        textbutton _("ПРО ГРУ") action ShowMenu("about") selected False sensitive not dim_buttons
 
         if renpy.variant("pc"):
 
-            ## Кнопка виходу заборонена на iOS й непотрібна на Android та Web.
-            textbutton _("Вийти") action Quit(confirm=not main_menu)
+            textbutton _("ВИЙТИ") action Quit(confirm=not main_menu) sensitive not dim_buttons
 
 
 style navigation_button is gui_button
@@ -341,7 +350,6 @@ style navigation_button:
 
 style navigation_button_text:
     properties gui.text_properties("navigation_button")
-
 
 ## Екран головного меню ########################################################
 ##
@@ -356,9 +364,6 @@ screen main_menu():
 
     add gui.main_menu_background
 
-    ## Ця порожня рамка затемнює головне меню.
-    frame:
-        style "main_menu_frame"
 
     ## Оператор "use" включає інший екран усередині цього. Фактичний уміст
     ## головного меню знаходиться на екрані навігації.
@@ -423,6 +428,8 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
     else:
         add gui.game_menu_background
 
+    use navigation
+    
     frame:
         style "game_menu_outer_frame"
 
@@ -472,7 +479,7 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
 
                     transclude
 
-    use navigation
+    #use navigation
 
     textbutton _("Повернутися"):
         style "return_button"
@@ -971,167 +978,6 @@ style history_label:
 
 style history_label_text:
     xalign 0.5
-
-
-## Екран довідки ###############################################################
-##
-## Цей екран надає інформацію про призначення клавіш і миші. Він використовує
-## інші екрани ("keyboard_help", "mouse_help" та "gamepad_help"), щоб показати
-## саму довідку.
-
-screen help():
-
-    tag menu
-
-    default device = "keyboard"
-
-    use game_menu(_("Довідка"), scroll="viewport"):
-
-        style_prefix "help"
-
-        vbox:
-            spacing 23
-
-            hbox:
-
-                textbutton _("Клавіатура") action SetScreenVariable("device", "keyboard")
-                textbutton _("Миша") action SetScreenVariable("device", "mouse")
-
-                if GamepadExists():
-                    textbutton _("Ґеймпад") action SetScreenVariable("device", "gamepad")
-
-            if device == "keyboard":
-                use keyboard_help
-            elif device == "mouse":
-                use mouse_help
-            elif device == "gamepad":
-                use gamepad_help
-
-
-screen keyboard_help():
-
-    hbox:
-        label _("Enter")
-        text _("Просуває діалог і вмикає інтерфейс.")
-
-    hbox:
-        label _("Пробіл")
-        text _("Просуває діалог без вибору варіантів.")
-
-    hbox:
-        label _("Клавіші стрілок")
-        text _("Навігація по інтерфейсу.")
-
-    hbox:
-        label _("ESC")
-        text _("Відкриває меню гри.")
-
-    hbox:
-        label _("Ctrl")
-        text _("Пропускає діалог при утриманні.")
-
-    hbox:
-        label _("Tab")
-        text _("Перемикає пропуск діалогу.")
-
-    hbox:
-        label _("Page Up")
-        text _("Відкотує до попереднього діалогу.")
-
-    hbox:
-        label _("Page Down")
-        text _("Переносить до наступного діалогу.")
-
-    hbox:
-        label "H"
-        text _("Приховує інтерфейс.")
-
-    hbox:
-        label "S"
-        text _("Робить знімок екрана.")
-
-    hbox:
-        label "V"
-        text _("Вмикає допоміжне {a=https://www.renpy.org/l/voicing}самоозвучення{/a}.")
-
-    hbox:
-        label "Shift+A"
-        text _("Відкриває меню доступності.")
-
-
-screen mouse_help():
-
-    hbox:
-        label _("Ліва кнопка миші")
-        text _("Просуває діалог і вмикає інтерфейс.")
-
-    hbox:
-        label _("Середня кнопка миші")
-        text _("Приховує інтерфейс.")
-
-    hbox:
-        label _("Права кнопка миші")
-        text _("Відкриває меню гри.")
-
-    hbox:
-        label _("Коліщатко миші вгору")
-        text _("Відкотує до попереднього діалогу.")
-
-    hbox:
-        label _("Коліщатко миші вниз")
-        text _("Переносить до наступного діалогу.")
-
-
-screen gamepad_help():
-
-    hbox:
-        label _("Правий тригер\nКнопка A/Униз")
-        text _("Просуває діалог і вмикає інтерфейс.")
-
-    hbox:
-        label _("Лівий тригер\nЛівий бампер")
-        text _("Відкотує до попереднього діалогу.")
-
-    hbox:
-        label _("Правий бампер")
-        text _("Переносить до наступного діалогу.")
-
-    hbox:
-        label _("Хрестовина, стики")
-        text _("Навігація по інтерфейсу.")
-
-    hbox:
-        label _("Start, Guide, Кнопка B/Управо")
-        text _("Відкриває меню гри.")
-
-    hbox:
-        label _("Кнопка Y/Угору")
-        text _("Приховує інтерфейс.")
-
-    textbutton _("Відкалібрувати") action GamepadCalibrate()
-
-
-style help_button is gui_button
-style help_button_text is gui_button_text
-style help_label is gui_label
-style help_label_text is gui_label_text
-style help_text is gui_text
-
-style help_button:
-    properties gui.button_properties("help_button")
-    xmargin 12
-
-style help_button_text:
-    properties gui.text_properties("help_button")
-
-style help_label:
-    xsize 375
-    right_padding 30
-
-style help_label_text:
-    size gui.text_size
-    xalign 1.0
-    textalign 1.0
 
 
 

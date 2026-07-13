@@ -29,18 +29,18 @@ define config.check_conflicting_properties = True
 define gui.accent_color = '#0099cc'
 
 ## Колір текстової кнопки, коли її не вибрано і не наведено вказівником.
-define gui.idle_color = '#888888'
+define gui.idle_color = '#e2dcd8'
 
 ## Малий колір використовується для маленького тексту, який має бути яскравішим/
 ## темнішим для досягнення того самого ефекту.
 define gui.idle_small_color = '#aaaaaa'
 
 ## Колір для кнопок і смуг при наведенні вказівником.
-define gui.hover_color = '#66c1e0'
+define gui.hover_color = '#fac081'
 
 ## Колір текстової кнопки, коли її вибрано, але не сфокосовано. Кнопку вибрано,
 ## якщо вона на поточному екрані або значенням налаштування.
-define gui.selected_color = '#ffffff'
+define gui.selected_color = '#f2cfc1'
 
 ## Колір текстової кнопки, коли її неможливо вибрати.
 define gui.insensitive_color = '#8888887f'
@@ -58,6 +58,9 @@ define gui.interface_text_color = '#ffffff'
 
 ## Шрифти та розміри шрифтів ###################################################
 
+## Шрифт для назви гри
+define gui.game_title_font = "anotherdangerslantedrusbyl.otf"
+
 ## Шрифт для тексту в грі.
 define gui.text_font = "DejaVuSans.ttf"
 
@@ -65,10 +68,10 @@ define gui.text_font = "DejaVuSans.ttf"
 define gui.name_text_font = "DejaVuSans.ttf"
 
 ## Шрифт для тексту поза грою.
-define gui.interface_text_font = "DejaVuSans.ttf"
+define gui.interface_text_font = "Oswald-Bold.ttf"
 
 ## Розмір звичайного тексту діалогу.
-define gui.text_size = 33
+define gui.text_size = 45
 
 ## Розмір імен персонажів.
 define gui.name_text_size = 45
@@ -88,9 +91,21 @@ define gui.title_text_size = 75
 
 ## Головне меню та меню гри ####################################################
 
+
+
+define gui.game_title = """Д О П О К И  Г О Р Я Т Ь  
+        ІВ О Г Н I"""
+
+style game_title_text:
+    font "anotherdangerslantedrusbyl.otf"
+    size 80
+    color "#f4d5ce"
+    outlines [(5, "#000000", 10, 10)]
+    bold True
+
 ## Зображення, використані для головного меню і меню гри.
-define gui.main_menu_background = "gui/main_menu.png"
-define gui.game_menu_background = "gui/game_menu.png"
+define gui.main_menu_background = "gui/bg_menu.png"
+define gui.game_menu_background = "gui/bg_menu.png"
 
 
 ## Діалог ######################################################################
