@@ -292,19 +292,12 @@ screen navigation():
     $ submenus = ["history", "save", "load", "preferences", "about"]
     $ dim_buttons = any(renpy.get_screen(s) is not None for s in submenus)
 
-
+    add gui.navigation_background
     vbox:
         style_prefix "navigation"
-
-
-        if main_menu and not dim_buttons:
-            xalign 0.185
-            yalign 0.739
-            spacing 1
-        else:
-            xoffset 63
-            yalign 0.5
-            spacing 2
+        xoffset 63
+        yalign 0.5
+        spacing 2
 
 
         if main_menu:
@@ -315,10 +308,7 @@ screen navigation():
 
 
         textbutton _("ЗАВАНТАЖИТИ") action ShowMenu("load") 
-        textbutton _("НАЛАШТУВАННЯ"):
-            xalign 1.0
-            action ShowMenu("preferences")
-        
+        textbutton _("НАЛАШТУВАННЯ") action ShowMenu("preferences")
 
 
         if _in_replay:
@@ -356,7 +346,6 @@ screen main_menu():
     tag menu
 
     add gui.main_menu_background
-    add gui.main_menu_button_fitter 
 
     text gui.game_title:
         style "game_title_text"
@@ -428,7 +417,6 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
         yalign 0.25
 
 
-    add gui.navigation_background
     use navigation
 
     if renpy.get_screen("preferences"):
