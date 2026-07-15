@@ -88,13 +88,19 @@ define gui.notify_text_size = 24
 ## Розмір назви гри.
 define gui.title_text_size = 75
 
+## Вікна: налаштування, навігація, завантаження і тд ###########################
+
+## Зображення, використане для налаштувань
+define gui.settings_bacground = "gui/bg_settings_mac_transperent.png"
+
+## Зображення, використане для навігації
+define gui.navigation_background = "gui/bg_navigation_mac_transperent.png"
+
 
 ## Головне меню та меню гри ####################################################
 
-
-
-define gui.game_title = """Д О П О К И  Г О Р Я Т Ь  
-        ІВ О Г Н I"""
+define gui.game_title =_("""Д О П О К И  Г О Р Я Т Ь  
+        ІВ О Г Н I""")
 
 style game_title_text:
     font "anotherdangerslantedrusbyl.otf"
@@ -105,7 +111,7 @@ style game_title_text:
 
 ## Зображення, використані для головного меню і меню гри.
 define gui.main_menu_background = "gui/bg_menu.png"
-define gui.game_menu_background = "gui/bg_menu.png"
+define gui.main_menu_button_fitter = "gui/menu_buttons_fitter.png"
 
 
 ## Діалог ######################################################################

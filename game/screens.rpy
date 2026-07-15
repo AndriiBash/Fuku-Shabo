@@ -291,54 +291,45 @@ screen navigation():
 
     $ submenus = ["history", "save", "load", "preferences", "about"]
     $ dim_buttons = any(renpy.get_screen(s) is not None for s in submenus)
-   
 
-
-    text gui.game_title:
-        style "game_title_text"
-        xalign 0.5
-        yalign 0.25
-    
 
     vbox:
         style_prefix "navigation"
 
-        if dim_buttons:
-            at Transform(matrixcolor=BrightnessMatrix(0.8))
 
+        if main_menu and not dim_buttons:
+            xalign 0.185
+            yalign 0.739
+            spacing 1
+        else:
+            xoffset 63
+            yalign 0.5
+            spacing 2
 
-        xalign 0.185
-        yalign 0.739
-
-        spacing 1
 
         if main_menu:
-
-            textbutton _("ПОЧАТИ") action Start() sensitive not dim_buttons
-
+            textbutton _("ПОЧАТИ") action Start() 
         else:
+            textbutton _("ІСТОРІЯ") action ShowMenu("history") 
+            textbutton _("ЗБЕРЕГТИ") action ShowMenu("save") 
 
-            textbutton _("ІСТОРІЯ") action ShowMenu("history") sensitive not dim_buttons
 
-            textbutton _("ЗБЕРЕГТИ") action ShowMenu("save") sensitive not dim_buttons
+        textbutton _("ЗАВАНТАЖИТИ") action ShowMenu("load") 
+        textbutton _("НАЛАШТУВАННЯ"):
+            xalign 1.0
+            action ShowMenu("preferences")
+        
 
-        textbutton _("ЗАВАНТАЖИТИ") action ShowMenu("load") selected False sensitive not dim_buttons
-
-        textbutton _("НАЛАШТУВАННЯ") action ShowMenu("preferences") selected False sensitive not dim_buttons
 
         if _in_replay:
+            textbutton _("ЗАКІНЧИТИ ПОВТОР") action EndReplay(confirm=True)
 
-            textbutton _("Закінчити повтор") action EndReplay(confirm=True) sensitive not dim_buttons
 
         elif not main_menu:
+            textbutton _("ГОЛОВНЕ МЕНЮ") action MainMenu()
 
-            textbutton _("Головне меню") action MainMenu() sensitive not dim_buttons
-
-        textbutton _("ПРО ГРУ") action ShowMenu("about") selected False sensitive not dim_buttons
-
-        if renpy.variant("pc"):
-
-            textbutton _("ВИЙТИ") action Quit(confirm=not main_menu) sensitive not dim_buttons
+        textbutton _("ПРО ГРУ") action ShowMenu("about") 
+        textbutton _("ВИЙТИ") action Quit(confirm=not main_menu) 
 
 
 style navigation_button is gui_button
@@ -350,6 +341,8 @@ style navigation_button:
 
 style navigation_button_text:
     properties gui.text_properties("navigation_button")
+    xalign 0.5
+
 
 ## Екран головного меню ########################################################
 ##
@@ -363,7 +356,12 @@ screen main_menu():
     tag menu
 
     add gui.main_menu_background
+    add gui.main_menu_button_fitter 
 
+    text gui.game_title:
+        style "game_title_text"
+        xalign 0.5
+        yalign 0.25
 
     ## Оператор "use" включає інший екран усередині цього. Фактичний уміст
     ## головного меню знаходиться на екрані навігації.
@@ -423,12 +421,18 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
 
     style_prefix "game_menu"
 
-    if main_menu:
-        add gui.main_menu_background
-    else:
-        add gui.game_menu_background
+    add gui.main_menu_background
+    text gui.game_title:
+        style "game_title_text"
+        xalign 0.5
+        yalign 0.25
 
+
+    add gui.navigation_background
     use navigation
+
+    if renpy.get_screen("preferences"):
+        add gui.settings_bacground
     
     frame:
         style "game_menu_outer_frame"
@@ -479,14 +483,13 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
 
                     transclude
 
-    #use navigation
 
-    textbutton _("Повернутися"):
+    textbutton _("ПОВЕРНУТИСЯ"):
         style "return_button"
-
+        yalign 0.85
         action Return()
 
-    label title
+    #label title
 
     if main_menu:
         key "game_menu" action ShowMenu("main_menu")
@@ -509,7 +512,7 @@ style game_menu_outer_frame:
     bottom_padding 45
     top_padding 180
 
-    background "gui/overlay/game_menu.png"
+    # background "gui/overlay/game_menu.png"
 
 style game_menu_navigation_frame:
     xsize 420
@@ -741,7 +744,7 @@ screen preferences():
     tag menu
 
     use game_menu(_("Налаштування"), scroll="viewport"):
-
+        
         vbox:
 
             hbox:
