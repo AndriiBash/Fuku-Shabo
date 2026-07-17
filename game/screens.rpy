@@ -458,23 +458,31 @@ style main_menu_version:
 ## Він викликається заголовком екрана і показує тло, заголовок і навігацію.
 
 
+
 ## Параметр "scroll" може мати значення "None" або один з "viewport" чи "vpgrid".
 ## Цей екран призначений для використання з одним або декількома об’єктами, які включені (розміщені) всередині нього.
 screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
     style_prefix "game_menu"
 
+
     add gui.main_menu_background
+
+
+    ## Додає назву гри на фон
     text gui.game_title:
         style "game_title_text"
         xalign 0.5
         yalign 0.25
 
 
+    ## Додає зображення субменю для налаштувань або для інших пунктів
     if renpy.get_screen("preferences"):
         add gui.settings_background
     else:
         add gui.about_save_load_background
     
+
+
     frame:
         style "game_menu_outer_frame"
 
@@ -545,45 +553,52 @@ style game_menu_content_frame is empty
 style game_menu_viewport is gui_viewport
 style game_menu_side is gui_side
 style game_menu_scrollbar is gui_vscrollbar
-
 style game_menu_label is gui_label
 style game_menu_label_text is gui_label_text
 
+
 style return_button is navigation_button
 style return_button_text is navigation_button_text
+
 
 style game_menu_outer_frame:
     bottom_padding 45
     top_padding 180
 
-    # background "gui/overlay/game_menu.png"
 
 style game_menu_navigation_frame:
     xsize 420
     yfill True
+
 
 style game_menu_content_frame:
     left_margin 60
     right_margin 30
     top_margin 15
 
+
 style game_menu_viewport:
     xsize 1380
+
 
 style game_menu_vscrollbar:
     unscrollable gui.unscrollable
 
+
 style game_menu_side:
     spacing 15
+
 
 style game_menu_label:
     xpos 75
     ysize 180
 
+
 style game_menu_label_text:
     size 75
     color gui.accent_color
     yalign 0.5
+
 
 style return_button:
     xpos gui.navigation_xpos
@@ -591,29 +606,25 @@ style return_button:
     yoffset -45
 
 
+
 ## Екран «Про гру» #############################################################
 ##
-## Цей екран містить інформацію про авторів та авторські права щодо гри та
-## Ren'Py.
-##
+## Цей екран містить інформацію про авторів та авторські права щодо гри та Ren'Py.
 ## У цьому екрані немає нічого особливого, тому він також служить прикладом
 ## того, як створити власний екран.
 
 screen about():
 
+
     tag menu
 
     ## Цей оператор "use" включає екран "game_menu" всередину цього екрану.
-    ## Потім дочірній елемент "vbox" включається всередину "viewport" всередині
-    ## екрана "game_menu".
+    ## Потім дочірній елемент "vbox" включається всередину "viewport" всередині екрана "game_menu".
     use game_menu(_("Про гру"), scroll="viewport"):
-
+        
         style_prefix "about"
 
         vbox:
-
-            label "[config.name!t]"
-            text _("Версія [config.version!t]\n")
 
             ## Значення "gui.about" зазвичай задається у файлі options.rpy.
             if gui.about:
@@ -625,19 +636,20 @@ screen about():
 style about_label is gui_label
 style about_label_text is gui_label_text
 style about_text is gui_text
-
 style about_label_text:
     size gui.label_text_size
 
 
+
 ## Екрани завантаження і збереження ############################################
 ##
-## Ці екрани дозволяють гравцеві зберегти гру та завантажити її знову. Оскільки
-## вони мають майже все спільне, обидва реалізовані у термінах третього екрана,
-## "file_slots".
+## Ці екрани дозволяють гравцеві зберегти гру та завантажити її знову. 
+## Оскільки вони мають майже все спільне, обидва реалізовані у термінах третього екрана, "file_slots".
 ##
-## https://www.renpy.org/doc/html/screen_special.html#save https://
-## www.renpy.org/doc/html/screen_special.html#load
+## https://www.renpy.org/doc/html/screen_special.html#save 
+## https:// www.renpy.org/doc/html/screen_special.html#load
+
+
 
 screen save():
 
@@ -661,9 +673,10 @@ screen file_slots(title):
 
         fixed:
 
-            ## Гарантує, що введення отримає подію входу раніше, ніж будь-яка
-            ## кнопка.
+
+            ## Гарантує, що введення отримає подію входу раніше, ніж будь-яка кнопка.
             order_reverse True
+
 
             ## Назва сторінки, яку можна редагувати, натиснувши кнопку.
             button:
@@ -676,6 +689,7 @@ screen file_slots(title):
                 input:
                     style "page_label_text"
                     value page_name_value
+
 
             ## Сітка комірок збережень.
             grid gui.file_slot_cols gui.file_slot_rows:
@@ -705,6 +719,7 @@ screen file_slots(title):
 
                         key "save_delete" action FileDelete(slot)
 
+
             ## Кнопки для відкриття інших сторінок.
             vbox:
                 style_prefix "page"
@@ -726,12 +741,14 @@ screen file_slots(title):
                     if config.has_quicksave:
                         textbutton _("{#quick_page}Ш") action FilePage("quick")
 
+
                     ## range(1, 10) повертає числа від 1 до 9.
                     for page in range(1, 10):
                         textbutton "[page]" action FilePage(page)
 
                     textbutton _(">") action FilePageNext()
                     key "save_page_next" action FilePageNext()
+
 
                 if config.has_sync:
                     if CurrentScreenName() == "save":
@@ -749,32 +766,40 @@ style page_label_text is gui_label_text
 style page_button is gui_button
 style page_button_text is gui_button_text
 
+
 style slot_button is gui_button
 style slot_button_text is gui_button_text
 style slot_time_text is slot_button_text
 style slot_name_text is slot_button_text
+
 
 style page_label:
     xpadding 75
     ypadding 5
     xalign 0.5
 
+
 style page_label_text:
     textalign 0.5
     layout "subtitle"
     hover_color gui.hover_color
 
+
 style page_button:
     properties gui.button_properties("page_button")
+
 
 style page_button_text:
     properties gui.text_properties("page_button")
 
+
 style slot_button:
     properties gui.button_properties("slot_button")
 
+
 style slot_button_text:
     properties gui.text_properties("slot_button")
+
 
 
 ## Екран налаштувань ###########################################################
@@ -782,6 +807,8 @@ style slot_button_text:
 ## Екран налаштувань дозволяє гравцеві налаштувати гру на свій смак.
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#preferences
+
+
 
 screen preferences():
 
@@ -809,9 +836,8 @@ screen preferences():
                     textbutton _("Після виборів") action Preference("after choices", "toggle")
                     textbutton _("Переходи") action InvertSelected(Preference("transitions", "toggle"))
 
-                ## Сюди можна додати додаткові vbox'и з типом "radio_pref" або
-                ## "check_pref", щоб додати додаткові налаштування, визначені
-                ## автором.
+                ## Сюди можна додати додаткові vbox'и з типом "radio_pref" або "check_pref" 
+                ## щоб додати додаткові налаштування, визначені автором.
 
             null height (4 * gui.pref_spacing)
 
@@ -869,17 +895,20 @@ style pref_label is gui_label
 style pref_label_text is gui_label_text
 style pref_vbox is vbox
 
+
 style radio_label is pref_label
 style radio_label_text is pref_label_text
 style radio_button is gui_button
 style radio_button_text is gui_button_text
 style radio_vbox is pref_vbox
 
+
 style check_label is pref_label
 style check_label_text is pref_label_text
 style check_button is gui_button
 style check_button_text is gui_button_text
 style check_vbox is pref_vbox
+
 
 style slider_label is pref_label
 style slider_label_text is pref_label_text
@@ -888,61 +917,78 @@ style slider_button is gui_button
 style slider_button_text is gui_button_text
 style slider_pref_vbox is pref_vbox
 
+
 style mute_all_button is check_button
 style mute_all_button_text is check_button_text
+
 
 style pref_label:
     top_margin gui.pref_spacing
     bottom_margin 3
 
+
 style pref_label_text:
     yalign 1.0
+
 
 style pref_vbox:
     xsize 338
 
+
 style radio_vbox:
     spacing gui.pref_button_spacing
+
 
 style radio_button:
     properties gui.button_properties("radio_button")
     foreground "gui/button/radio_[prefix_]foreground.png"
 
+
 style radio_button_text:
     properties gui.text_properties("radio_button")
 
+
 style check_vbox:
     spacing gui.pref_button_spacing
+
 
 style check_button:
     properties gui.button_properties("check_button")
     foreground "gui/button/check_[prefix_]foreground.png"
 
+
 style check_button_text:
     properties gui.text_properties("check_button")
 
+
 style slider_slider:
     xsize 525
+
 
 style slider_button:
     properties gui.button_properties("slider_button")
     yalign 0.5
     left_margin 15
 
+
 style slider_button_text:
     properties gui.text_properties("slider_button")
+
 
 style slider_vbox:
     xsize 675
 
 
+
 ## Екран історії ###############################################################
 ##
-## Цей екран показує історію діалогів для гравця. Хоч у цьому екрані немає
-## нічого особливого, він повинен мати доступ до історії діалогів, що
-## зберігається в "_history_list".
+## Цей екран показує історію діалогів для гравця.
+## Хоч у цьому екрані немає нічого особливого
+## він повинен мати доступ до історії діалогів, що зберігається в "_history_list".
 ##
 ## https://www.renpy.org/doc/html/history.html
+
+
 
 screen history():
 
@@ -959,47 +1005,52 @@ screen history():
 
             window:
 
-                ## Тут усе буде показано правильно, якщо "history_height"
-                ## дорівнює "None".
+
+                ## Тут усе буде показано правильно, якщо "history_height" дорівнює "None".
                 has fixed:
                     yfit True
 
-                if h.who:
 
+                if h.who:
                     label h.who:
                         style "history_name"
                         substitute False
 
-                        ## Бере колір тексту "who" з "Character", якщо він
-                        ## заданий.
+
+                        ## Бере колір тексту "who" з "Character", якщо він заданий.
                         if "color" in h.who_args:
                             text_color h.who_args["color"]
+
 
                 $ what = renpy.filter_text_tags(h.what, allow=gui.history_allow_tags)
                 text what:
                     substitute False
+
 
         if not _history_list:
             label _("Історія діалогу порожня.")
 
 
 ## Визначає, які позначки дозволено показувати на екрані історії.
-
 define gui.history_allow_tags = { "alt", "noalt", "rt", "rb", "art" }
 
 
 style history_window is empty
 
+
 style history_name is gui_label
 style history_name_text is gui_label_text
 style history_text is gui_text
 
+
 style history_label is gui_label
 style history_label_text is gui_label_text
+
 
 style history_window:
     xfill True
     ysize gui.history_height
+
 
 style history_name:
     xpos gui.history_name_xpos
@@ -1007,9 +1058,11 @@ style history_name:
     ypos gui.history_name_ypos
     xsize gui.history_name_width
 
+
 style history_name_text:
     min_width gui.history_name_width
     textalign gui.history_name_xalign
+
 
 style history_text:
     xpos gui.history_text_xpos
@@ -1020,8 +1073,10 @@ style history_text:
     textalign gui.history_text_xalign
     layout ("subtitle" if gui.history_text_xalign else "tex")
 
+
 style history_label:
     xfill True
+
 
 style history_label_text:
     xalign 0.5
@@ -1033,26 +1088,25 @@ style history_label_text:
 ################################################################################
 
 
+
 ## Екран підтвердження #########################################################
 ##
-## Екран підтвердження викликається, коли Ren'Py хоче поставити гравцеві
-## запитання з відповіддю «Так» або «Ні».
+## Екран підтвердження викликається, коли Ren'Py хоче поставити гравцеві запитання з відповіддю «Так» або «Ні».
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#confirm
 
+
+
 screen confirm(message, yes_action, no_action):
+
 
     ## Не допускати введення даних на інших екранах під час показу цього екрана.
     modal True
-
     zorder 200
-
     style_prefix "confirm"
-
     add "gui/overlay/confirm.png"
 
     frame:
-
         vbox:
             xalign .5
             yalign .5
@@ -1069,6 +1123,7 @@ screen confirm(message, yes_action, no_action):
                 textbutton _("Так") action yes_action
                 textbutton _("Ні") action no_action
 
+
     ## Клацніть ПКМ і виберіть «Ні».
     key "game_menu" action no_action
 
@@ -1079,21 +1134,26 @@ style confirm_prompt_text is gui_prompt_text
 style confirm_button is gui_medium_button
 style confirm_button_text is gui_medium_button_text
 
+
 style confirm_frame:
     background Frame([ "gui/confirm_frame.png", "gui/frame.png"], gui.confirm_frame_borders, tile=gui.frame_tile)
     padding gui.confirm_frame_borders.padding
     xalign .5
     yalign .5
 
+
 style confirm_prompt_text:
     textalign 0.5
     layout "subtitle"
 
+
 style confirm_button:
     properties gui.button_properties("confirm_button")
 
+
 style confirm_button_text:
     properties gui.text_properties("confirm_button")
+
 
 
 ## Екран індикатора пропуску ###################################################
@@ -1102,13 +1162,14 @@ style confirm_button_text:
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#skip-indicator
 
-screen skip_indicator():
 
+
+screen skip_indicator():
     zorder 100
     style_prefix "skip"
 
-    frame:
 
+    frame:
         hbox:
             spacing 9
 
@@ -1137,18 +1198,21 @@ style skip_frame is empty
 style skip_text is gui_text
 style skip_triangle is skip_text
 
+
 style skip_frame:
     ypos gui.skip_ypos
     background Frame("gui/skip.png", gui.skip_frame_borders, tile=gui.frame_tile)
     padding gui.skip_frame_borders.padding
 
+
 style skip_text:
     size gui.notify_text_size
 
+
 style skip_triangle:
-    ## Ми маємо використовувати шрифт, в якому є гліф ЧОРНИЙ СПРЯМОВАНИЙ ВПРАВО
-    ## ТРИКУТНИК.
+    ## Ми маємо використовувати шрифт, в якому є гліф ЧОРНИЙ СПРЯМОВАНИЙ ВПРАВО ТРИКУТНИК.
     font "DejaVuSans.ttf"
+
 
 
 ## Екран сповіщення ############################################################
@@ -1157,6 +1221,8 @@ style skip_triangle:
 ## (Наприклад, коли гру швидко збережено або зроблено знімок екрана.)
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#notify-screen
+
+
 
 screen notify(message):
 
@@ -1180,14 +1246,16 @@ transform notify_appear:
 style notify_frame is empty
 style notify_text is gui_text
 
+
 style notify_frame:
     ypos gui.notify_ypos
-
     background Frame("gui/notify.png", gui.notify_frame_borders, tile=gui.frame_tile)
     padding gui.notify_frame_borders.padding
 
+
 style notify_text:
     properties gui.text_properties("notify")
+
 
 
 ## Екран NVL ###################################################################
@@ -1195,6 +1263,7 @@ style notify_text:
 ## Цей екран використовується для меню і діалогу режиму NVL.
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#nvl
+
 
 
 screen nvl(dialogue, items=None):
@@ -1205,28 +1274,26 @@ screen nvl(dialogue, items=None):
         has vbox:
             spacing gui.nvl_spacing
 
+
         ## Показує діалог як "vpgrid" або "vbox".
         if gui.nvl_height:
-
             vpgrid:
                 cols 1
                 yinitial 1.0
+        
 
-                use nvl_dialogue(dialogue)
+        use nvl_dialogue(dialogue)
 
-        else:
 
-            use nvl_dialogue(dialogue)
-
-        ## Показує меню, якщо вказано. Меню може показуватися неправильно, якщо
-        ## значення "config.narrator_menu" задано на "True".
+        ## Показує меню, якщо вказано.
+        ## Меню може показуватися неправильно, якщо значення "config.narrator_menu" задано на "True".
         for i in items:
-
             textbutton i.caption:
                 action i.action
                 style "nvl_button"
 
     add SideImage() xalign 0.0 yalign 1.0
+
 
 
 screen nvl_dialogue(dialogue):
@@ -1248,18 +1315,21 @@ screen nvl_dialogue(dialogue):
                     id d.what_id
 
 
-## Цей параметр визначає максимальну кількість рядків у режимі NVL, які можуть
-## бути показані одночасно.
+## Цей параметр визначає максимальну кількість рядків у режимі NVL, які можут бути показані одночасно.
 define config.nvl_list_length = gui.nvl_list_length
+
 
 style nvl_window is default
 style nvl_entry is default
 
+
 style nvl_label is say_label
 style nvl_dialogue is say_dialogue
 
+
 style nvl_button is button
 style nvl_button_text is button_text
+
 
 style nvl_window:
     xfill True
@@ -1268,9 +1338,11 @@ style nvl_window:
     background "gui/nvl.png"
     padding gui.nvl_borders.padding
 
+
 style nvl_entry:
     xfill True
     ysize gui.nvl_height
+
 
 style nvl_label:
     xpos gui.nvl_name_xpos
@@ -1281,6 +1353,7 @@ style nvl_label:
     min_width gui.nvl_name_width
     textalign gui.nvl_name_xalign
 
+
 style nvl_dialogue:
     xpos gui.nvl_text_xpos
     xanchor gui.nvl_text_xalign
@@ -1289,6 +1362,7 @@ style nvl_dialogue:
     min_width gui.nvl_text_width
     textalign gui.nvl_text_xalign
     layout ("subtitle" if gui.nvl_text_xalign else "tex")
+
 
 style nvl_thought:
     xpos gui.nvl_thought_xpos
@@ -1299,13 +1373,16 @@ style nvl_thought:
     textalign gui.nvl_thought_xalign
     layout ("subtitle" if gui.nvl_text_xalign else "tex")
 
+
 style nvl_button:
     properties gui.button_properties("nvl_button")
     xpos gui.nvl_button_xpos
     xanchor gui.nvl_button_xalign
 
+
 style nvl_button_text:
     properties gui.text_properties("nvl_button")
+
 
 
 ## Екран бульбашок #############################################################
@@ -1316,6 +1393,8 @@ style nvl_button_text:
 ## створювати об’єкти з ідентифікаторами "namebox", "who" та "window".
 ##
 ## https://www.renpy.org/doc/html/bubble.html#bubble-screen
+
+
 
 screen bubble(who, what):
     style_prefix "bubble"
@@ -1339,23 +1418,28 @@ screen bubble(who, what):
         showif ctc:
             add ctc
 
+
 style bubble_window is empty
 style bubble_namebox is empty
 style bubble_who is default
 style bubble_what is default
+
 
 style bubble_window:
     xpadding 30
     top_padding 5
     bottom_padding 5
 
+
 style bubble_namebox:
     xalign 0.5
+
 
 style bubble_who:
     xalign 0.5
     textalign 0.5
     color "#000"
+
 
 style bubble_what:
     align (0.5, 0.5)
@@ -1363,8 +1447,10 @@ style bubble_what:
     layout "subtitle"
     color "#000"
 
+
 define bubble.frame = Frame("gui/bubble.png", 55, 55, 55, 95)
 define bubble.thoughtframe = Frame("gui/thoughtbubble.png", 55, 55, 55, 55)
+
 
 define bubble.properties = {
     "bottom_left" : {
@@ -1392,6 +1478,7 @@ define bubble.properties = {
     }
 }
 
+
 define bubble.expand_area = {
     "bottom_left" : (0, 0, 0, 22),
     "bottom_right" : (0, 0, 0, 22),
@@ -1399,116 +1486,3 @@ define bubble.expand_area = {
     "top_right" : (0, 22, 0, 0),
     "thought" : (0, 0, 0, 0),
 }
-
-
-
-################################################################################
-## Мобільні варіанти
-################################################################################
-
-style pref_vbox:
-    variant "medium"
-    xsize 675
-
-## Оскільки миша може бути відсутня, ми замінюємо швидке меню версією, яка
-## використовує менше та більші кнопки, які легше торкатися.
-screen quick_menu():
-    variant "touch"
-
-    zorder 100
-
-    if quick_menu:
-
-        hbox:
-            style "quick_menu"
-            style_prefix "quick"
-
-            textbutton _("Назад") action Rollback()
-            textbutton _("Пропускати") action Skip() alternate Skip(fast=True, confirm=True)
-            textbutton _("Авто.") action Preference("auto-forward", "toggle")
-            textbutton _("Меню") action ShowMenu()
-
-
-style window:
-    variant "small"
-    background "gui/phone/textbox.png"
-
-style radio_button:
-    variant "small"
-    foreground "gui/phone/button/radio_[prefix_]foreground.png"
-
-style check_button:
-    variant "small"
-    foreground "gui/phone/button/check_[prefix_]foreground.png"
-
-style nvl_window:
-    variant "small"
-    background "gui/phone/nvl.png"
-
-style main_menu_frame:
-    variant "small"
-    background "gui/phone/overlay/main_menu.png"
-
-style game_menu_outer_frame:
-    variant "small"
-    background "gui/phone/overlay/game_menu.png"
-
-style game_menu_navigation_frame:
-    variant "small"
-    xsize 510
-
-style game_menu_content_frame:
-    variant "small"
-    top_margin 0
-
-style game_menu_viewport:
-    variant "small"
-    xsize 1305
-
-style pref_vbox:
-    variant "small"
-    xsize 600
-
-style bar:
-    variant "small"
-    ysize gui.bar_size
-    left_bar Frame("gui/phone/bar/left.png", gui.bar_borders, tile=gui.bar_tile)
-    right_bar Frame("gui/phone/bar/right.png", gui.bar_borders, tile=gui.bar_tile)
-
-style vbar:
-    variant "small"
-    xsize gui.bar_size
-    top_bar Frame("gui/phone/bar/top.png", gui.vbar_borders, tile=gui.bar_tile)
-    bottom_bar Frame("gui/phone/bar/bottom.png", gui.vbar_borders, tile=gui.bar_tile)
-
-style scrollbar:
-    variant "small"
-    ysize gui.scrollbar_size
-    base_bar Frame("gui/phone/scrollbar/horizontal_[prefix_]bar.png", gui.scrollbar_borders, tile=gui.scrollbar_tile)
-    thumb Frame("gui/phone/scrollbar/horizontal_[prefix_]thumb.png", gui.scrollbar_borders, tile=gui.scrollbar_tile)
-
-style vscrollbar:
-    variant "small"
-    xsize gui.scrollbar_size
-    base_bar Frame("gui/phone/scrollbar/vertical_[prefix_]bar.png", gui.vscrollbar_borders, tile=gui.scrollbar_tile)
-    thumb Frame("gui/phone/scrollbar/vertical_[prefix_]thumb.png", gui.vscrollbar_borders, tile=gui.scrollbar_tile)
-
-style slider:
-    variant "small"
-    ysize gui.slider_size
-    base_bar Frame("gui/phone/slider/horizontal_[prefix_]bar.png", gui.slider_borders, tile=gui.slider_tile)
-    thumb "gui/phone/slider/horizontal_[prefix_]thumb.png"
-
-style vslider:
-    variant "small"
-    xsize gui.slider_size
-    base_bar Frame("gui/phone/slider/vertical_[prefix_]bar.png", gui.vslider_borders, tile=gui.slider_tile)
-    thumb "gui/phone/slider/vertical_[prefix_]thumb.png"
-
-style slider_vbox:
-    variant "small"
-    xsize None
-
-style slider_slider:
-    variant "small"
-    xsize 900

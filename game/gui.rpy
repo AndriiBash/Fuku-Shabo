@@ -112,7 +112,6 @@ define gui.title_text_size = 75
 ## Вікна: налаштування, навігація, завантаження і тд ###########################
 
 
-
 ## Зображення, використане для налаштувань
 define gui.settings_background = "gui/bg_settings_mac_transperent.png"
 
