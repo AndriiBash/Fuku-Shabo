@@ -2,24 +2,32 @@
 ## Ініціалізація
 ################################################################################
 
+
+
 init offset = -1
+
 
 
 ################################################################################
 ## Стилі
 ################################################################################
 
+
+
 style default:
     properties gui.text_properties()
     language gui.language
+
 
 style input:
     properties gui.text_properties("input", accent=True)
     adjust_spacing False
 
+
 style hyperlink_text:
     properties gui.text_properties("hyperlink", accent=True)
     hover_underline True
+
 
 style gui_text:
     properties gui.text_properties("interface")
@@ -28,6 +36,7 @@ style gui_text:
 style button:
     properties gui.button_properties("button")
 
+
 style button_text is gui_text:
     properties gui.text_properties("button")
     yalign 0.5
@@ -35,6 +44,7 @@ style button_text is gui_text:
 
 style label_text is gui_text:
     properties gui.text_properties("label", accent=True)
+
 
 style prompt_text is gui_text:
     properties gui.text_properties("prompt")
@@ -45,25 +55,30 @@ style bar:
     left_bar Frame("gui/bar/left.png", gui.bar_borders, tile=gui.bar_tile)
     right_bar Frame("gui/bar/right.png", gui.bar_borders, tile=gui.bar_tile)
 
+
 style vbar:
     xsize gui.bar_size
     top_bar Frame("gui/bar/top.png", gui.vbar_borders, tile=gui.bar_tile)
     bottom_bar Frame("gui/bar/bottom.png", gui.vbar_borders, tile=gui.bar_tile)
+
 
 style scrollbar:
     ysize gui.scrollbar_size
     base_bar Frame("gui/scrollbar/horizontal_[prefix_]bar.png", gui.scrollbar_borders, tile=gui.scrollbar_tile)
     thumb Frame("gui/scrollbar/horizontal_[prefix_]thumb.png", gui.scrollbar_borders, tile=gui.scrollbar_tile)
 
+
 style vscrollbar:
     xsize gui.scrollbar_size
     base_bar Frame("gui/scrollbar/vertical_[prefix_]bar.png", gui.vscrollbar_borders, tile=gui.scrollbar_tile)
     thumb Frame("gui/scrollbar/vertical_[prefix_]thumb.png", gui.vscrollbar_borders, tile=gui.scrollbar_tile)
 
+
 style slider:
     ysize gui.slider_size
     base_bar Frame("gui/slider/horizontal_[prefix_]bar.png", gui.slider_borders, tile=gui.slider_tile)
     thumb "gui/slider/horizontal_[prefix_]thumb.png"
+
 
 style vslider:
     xsize gui.slider_size
@@ -82,36 +97,29 @@ style frame:
 ################################################################################
 
 
+
 ## Екран промови ###############################################################
 ##
-## Екран промови використовується для показу діалогу гравцеві. Він приймає
-## два параметри, «who» та «what», ім’я персонажа й текст, який буде показано
-## відповідно. (Параметр «who» може мати значення «None», якщо ім’я не вказано.)
+## Екран промови використовується для показу діалогу гравцеві. 
+## Він приймає два параметри, «who» та «what», ім’я персонажа й текст, який буде показано відповідно. 
+## Параметр «who» може мати значення «None», якщо ім’я не вказано.
 ##
-## Цей екран має створювати текст з ідентифікатором «what», оскільки Ren'Py
-## використовує його для керування показу тексту. Він також може створювати
-## елементи з ідентифікаторами «who» та «window» для застосування властивостей
-## стилю.
+## Цей екран має створювати текст з ідентифікатором «what», оскільки Ren'Py використовує його для керування показу тексту.
+## Він також може створювати елементи з ідентифікаторами «who» та «window» для застосування властивостей стилю.
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#say
-
 screen say(who, what):
-
     window:
         id "window"
-
         if who is not None:
-
             window:
                 id "namebox"
                 style "namebox"
                 text who id "who"
-
         text what id "what"
 
 
-    ## Якщо є бічне зображення, показуйте його над текстом. Не виводьте на
-    ## мобільний варіант — немає місця.
+    ## Якщо є бічне зображення, показуйте його над текстом.
     if not renpy.variant("small"):
         add SideImage() xalign 0.0 yalign 1.0
 
@@ -120,10 +128,14 @@ screen say(who, what):
 init python:
     config.character_id_prefixes.append('namebox')
 
+
 style window is default
+
+
 style say_label is default
 style say_dialogue is default
 style say_thought is say_dialogue
+
 
 style namebox is default
 style namebox_label is say_label
@@ -137,6 +149,7 @@ style window:
 
     background Image("gui/textbox.png", xalign=0.5, yalign=1.0)
 
+
 style namebox:
     xpos gui.name_xpos
     xanchor gui.name_xalign
@@ -147,10 +160,13 @@ style namebox:
     background Frame("gui/namebox.png", gui.namebox_borders, tile=gui.namebox_tile, xalign=gui.name_xalign)
     padding gui.namebox_borders.padding
 
+
 style say_label:
     properties gui.text_properties("name", accent=True)
+    
     xalign gui.name_xalign
     yalign 0.5
+
 
 style say_dialogue:
     properties gui.text_properties("dialogue")
@@ -161,21 +177,21 @@ style say_dialogue:
 
     adjust_spacing False
 
+
+
 ## Екран введення ##############################################################
 ##
-## Цей екран використовується для показу «renpy.input». Параметр «prompt»
-## використовується для передачі текстової підказки.
+## Цей екран використовується для показу «renpy.input».
+## Параметр «prompt» використовується для передачі текстової підказки.
 ##
-## Цей екран має створити введення з ідентифікатором «input» для прийняття
-## різних параметрів введення.
+## Цей екран має створити введення з ідентифікатором «input» для прийняття різних параметрів введення.
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#input
 
+
 screen input(prompt):
     style_prefix "input"
-
     window:
-
         vbox:
             xanchor gui.dialogue_text_xalign
             xpos gui.dialogue_xpos
@@ -185,36 +201,42 @@ screen input(prompt):
             text prompt style "input_prompt"
             input id "input"
 
+
 style input_prompt is default
+
 
 style input_prompt:
     xalign gui.dialogue_text_xalign
     properties gui.text_properties("input_prompt")
+
 
 style input:
     xalign gui.dialogue_text_xalign
     xmaximum gui.dialogue_width
 
 
+
 ## Екран вибору ################################################################
 ##
-## Цей екран використовується для показу ігрових варіантів вибору, представлених
-## оператором «menu». Один параметр, «items», являє собою список об’єктів, кожен
-## з яких має підпис і поле дії.
+## Цей екран використовується для показу ігрових варіантів вибору, представлених оператором «menu».
+## Один параметр, «items», являє собою список об’єктів, кожен з яких має підпис і поле дії.
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#choice
 
+
 screen choice(items):
     style_prefix "choice"
-
     vbox:
         for i in items:
             textbutton i.caption action i.action
 
 
 style choice_vbox is vbox
+
+
 style choice_button is button
 style choice_button_text is button_text
+
 
 style choice_vbox:
     xalign 0.5
@@ -223,17 +245,19 @@ style choice_vbox:
 
     spacing gui.choice_spacing
 
+
 style choice_button is default:
     properties gui.button_properties("choice_button")
+
 
 style choice_button_text is default:
     properties gui.text_properties("choice_button")
 
 
+
 ## Екран швидкого меню #########################################################
 ##
-## Швидке меню показується у грі, щоб забезпечити легкий доступ до меню поза
-## грою.
+## Швидке меню показується у грі, щоб забезпечити легкий доступ до меню поза грою.
 
 screen quick_menu():
 
@@ -241,10 +265,11 @@ screen quick_menu():
     zorder 100
 
     if quick_menu:
-
+        
         hbox:
             style_prefix "quick"
             style "quick_menu"
+
 
             textbutton _("Назад") action Rollback()
             textbutton _("Історія") action ShowMenu('history')
@@ -261,38 +286,54 @@ screen quick_menu():
 init python:
     config.overlay_screens.append("quick_menu")
 
+
 default quick_menu = True
+
 
 style quick_menu is hbox
 style quick_button is default
 style quick_button_text is button_text
 
+
 style quick_menu:
     xalign 0.5
     yalign 1.0
 
+
 style quick_button:
     properties gui.button_properties("quick_button")
 
+
 style quick_button_text:
     properties gui.text_properties("quick_button")
+
 
 
 ################################################################################
 ## Екрани головного меню і меню гри
 ################################################################################
 
+
+
 ## Екран навігації #############################################################
 ##
-## Цей екран включено в головне та ігрове меню і забезпечує навігацію до інших
-## меню та початку гри.
+## Цей екран включено в головне та ігрове меню і забезпечує навігацію до інших меню та початку гри.
+
 
 screen navigation():
 
-    $ submenus = ["history", "save", "load", "preferences", "about"]
-    $ dim_buttons = any(renpy.get_screen(s) is not None for s in submenus)
 
-    add gui.navigation_background
+    ## Трігер для визначення переходу до іншого субменю відмінного від головного меню
+    $ dim_buttons = any(renpy.get_screen(s) is not None for s in ["history", "save", "load", "preferences", "about"])
+
+
+    ## Додає зображення субменю для навігації
+    if not any(renpy.get_screen(s) is not None for s in ["about","save","load","history"]):
+        add gui.navigation_big_background
+    else:
+        add gui.navigation_small_background
+    
+    
     vbox:
         style_prefix "navigation"
         xoffset 63
@@ -325,13 +366,16 @@ screen navigation():
 style navigation_button is gui_button
 style navigation_button_text is gui_button_text
 
+
 style navigation_button:
     size_group "navigation"
     properties gui.button_properties("navigation_button")
 
+
 style navigation_button_text:
     properties gui.text_properties("navigation_button")
     xalign 0.5
+
 
 
 ## Екран головного меню ########################################################
@@ -340,24 +384,30 @@ style navigation_button_text:
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#main-menu
 
+
 screen main_menu():
+
 
     ## Гарантує, що будь-який інший екран меню буде замінено.
     tag menu
 
+    ## Додає зображення головного меню
     add gui.main_menu_background
 
+
+    ## Додає текст назви гри в головне меню
     text gui.game_title:
         style "game_title_text"
         xalign 0.5
         yalign 0.25
 
-    ## Оператор "use" включає інший екран усередині цього. Фактичний уміст
-    ## головного меню знаходиться на екрані навігації.
+
+    ## Оператор "use" включає інший екран усередині цього. 
+    ## Фактичний уміст головного меню знаходиться на екрані навігації.
     use navigation
 
-    if gui.show_name:
 
+    if gui.show_name:
         vbox:
             style "main_menu_vbox"
 
@@ -374,11 +424,12 @@ style main_menu_text is gui_text
 style main_menu_title is main_menu_text
 style main_menu_version is main_menu_text
 
+
 style main_menu_frame:
     xsize 420
     yfill True
-
     background "gui/overlay/main_menu.png"
+
 
 style main_menu_vbox:
     xalign 1.0
@@ -387,27 +438,29 @@ style main_menu_vbox:
     yalign 1.0
     yoffset -30
 
+
 style main_menu_text:
     properties gui.text_properties("main_menu", accent=True)
 
+
 style main_menu_title:
     properties gui.text_properties("title")
+
 
 style main_menu_version:
     properties gui.text_properties("version")
 
 
+
 ## Екран ігрового меню #########################################################
 ##
-## Тут викладено основну загальну структуру екрана меню гри. Він викликається
-## заголовком екрана і показує тло, заголовок і навігацію.
-##
-## Параметр "scroll" може мати значення "None" або один з "viewport" чи
-## "vpgrid". Цей екран призначений для використання з одним або декількома
-## об’єктами, які включені (розміщені) всередині нього.
+## Тут викладено основну загальну структуру екрана меню гри. 
+## Він викликається заголовком екрана і показує тло, заголовок і навігацію.
 
+
+## Параметр "scroll" може мати значення "None" або один з "viewport" чи "vpgrid".
+## Цей екран призначений для використання з одним або декількома об’єктами, які включені (розміщені) всередині нього.
 screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
-
     style_prefix "game_menu"
 
     add gui.main_menu_background
@@ -417,10 +470,10 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
         yalign 0.25
 
 
-    use navigation
-
     if renpy.get_screen("preferences"):
-        add gui.settings_bacground
+        add gui.settings_background
+    else:
+        add gui.about_save_load_background
     
     frame:
         style "game_menu_outer_frame"
@@ -470,6 +523,9 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
                 else:
 
                     transclude
+
+
+    use navigation
 
 
     textbutton _("ПОВЕРНУТИСЯ"):
