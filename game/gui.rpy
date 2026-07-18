@@ -130,8 +130,11 @@ define gui.navigation_small_background = "gui/bg_navigation_mac_transperent_smal
 
 
 ## Текст назви гри який відображається на головному меню
-define gui.game_title =_("""Д О П О К И  Г О Р Я Т Ь  
-        ІВ О Г Н I""")
+define gui.game_title =_("""ІД О П О К И  Г О Р Я Т Ь  
+        ІІВ О Г Н I""")
+
+
+define gui.blur_intense = 18
 
 
 ## Стиль назви гри
@@ -144,8 +147,8 @@ style game_title_text:
 
 
 ## Зображення, використані для головного меню і меню гри.
-define gui.main_menu_background = "gui/bg_menu.png"
-define gui.main_menu_button_fitter = "gui/menu_buttons_fitter.png"
+define gui.main_menu_background = "gui/bg_menu_background.png"
+define gui.main_menu_laptop = "gui/bg_menu_laptop.png"
 
 
 
