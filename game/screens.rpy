@@ -391,21 +391,24 @@ screen main_menu():
     ## Гарантує, що будь-який інший екран меню буде замінено.
     tag menu
 
+
     ## Додає зображення головного меню
     add gui.main_menu_background
-    add gui.main_menu_laptop
 
 
     ## Додає текст назви гри в головне меню
     text gui.game_title:
         style "game_title_text"
-        xalign 0.5
-        yalign 0.25
+        xalign 0.6
+        yalign 0.2
 
 
     ## Оператор "use" включає інший екран усередині цього. 
     ## Фактичний уміст головного меню знаходиться на екрані навігації.
     use navigation
+
+
+    add gui.main_menu_laptop
 
 
     if gui.show_name:
@@ -458,28 +461,26 @@ style main_menu_version:
 ## Тут викладено основну загальну структуру екрана меню гри. 
 ## Він викликається заголовком екрана і показує тло, заголовок і навігацію.
 
-transform blur_text:
-        blur gui.blur_intense
-        # для меншої пікселізації
-        #blur 5 
+
 
 ## Параметр "scroll" може мати значення "None" або один з "viewport" чи "vpgrid".
 ## Цей екран призначений для використання з одним або декількома об’єктами, які включені (розміщені) всередині нього.
 screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
     style_prefix "game_menu"
 
-    
+
+    ## Додає фон по слоях з блюром    
     add gui.main_menu_background:
         blur gui.blur_intense
-    add gui.main_menu_laptop
+    #add gui.main_menu_laptop
+
 
     ## Додає назву гри на фон
     text gui.game_title:
         style "game_title_text"
-        xalign 0.5
-        yalign 0.25
+        xalign 0.6
+        yalign 0.193
         at blur_text
-   
 
 
     ## Додає зображення субменю для налаштувань або для інших пунктів
@@ -487,7 +488,10 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
         add gui.settings_background
     else:
         add gui.about_save_load_background
-    
+
+
+    use navigation
+    add gui.main_menu_laptop
 
 
     frame:
@@ -540,15 +544,11 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
                     transclude
 
 
-    use navigation
-
-
     textbutton _("ПОВЕРНУТИСЯ"):
         style "return_button"
         yalign 0.85
         action Return()
 
-    #label title
 
     if main_menu:
         key "game_menu" action ShowMenu("main_menu")

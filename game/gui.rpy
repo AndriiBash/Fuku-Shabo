@@ -130,11 +130,21 @@ define gui.navigation_small_background = "gui/bg_navigation_mac_transperent_smal
 
 
 ## Текст назви гри який відображається на головному меню
-define gui.game_title =_("""ІД О П О К И  Г О Р Я Т Ь  
-        ІІВ О Г Н I""")
+define gui.game_title =_("""111111111111111111111111111
+11Д О П О К И  Г О Р Я Т Ь11
+        111В О Г Н І11
+    1111111111111111111""")
 
 
-define gui.blur_intense = 18
+## Інтенсивнісь блюру
+define gui.blur_intense = 15
+
+
+## Стиль для блюру тексту головного меню
+transform blur_text:
+        #blur gui.blur_intense
+        # для меншої пікселізації
+        blur 6
 
 
 ## Стиль назви гри
