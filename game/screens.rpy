@@ -338,7 +338,8 @@ screen navigation():
     else:
         add gui.navigation_small_background
     
-    
+    add gui.menu_cat_sticker
+
     vbox:
         style_prefix "navigation"
         xalign 0.099
@@ -433,9 +434,6 @@ screen main_menu():
     use navigation
 
 
-    add gui.menu_cat_sticker
-
-
     if gui.show_name:
         vbox:
             style "main_menu_vbox"
@@ -501,15 +499,11 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
     use game_title_blur
 
 
-    ## Додає зображення субменю для налаштувань або для інших пунктів
-    #if renpy.get_screen("preferences"):
-    #    add gui.settings_background
-    #else:
-    #    add gui.about_save_load_background
+    ## Додає зображення субменю
     add gui.about_save_load_background
 
+
     use navigation
-    add gui.menu_cat_sticker
 
 
     frame:
@@ -562,6 +556,12 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
                     transclude
 
 
+    ## Додається зображення кнопки повернення
+    add gui.return_button_cover_non_activated:
+        xalign 0.161
+        yalign 0.265
+
+
     textbutton _(""):
         style "return_button"
         xsize 50
@@ -588,7 +588,7 @@ style game_menu_label_text is gui_label_text
 style return_button:
     xsize 40
     ysize 25
-    hover_background gui.return_button_cover
+    hover_background gui.return_button_cover_activated
 style return_button_text is navigation_button_text
 
 

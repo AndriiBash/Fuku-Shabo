@@ -112,7 +112,10 @@ define gui.title_text_size = 75
 ## Вікна: налаштування, навігація, завантаження і тд ###########################
 
 
-define gui.return_button_cover = "gui/return_button.png"
+##Зображення для кнопки повернення
+define gui.return_button_cover_activated = "gui/return_button_activated.png"
+define gui.return_button_cover_non_activated = "gui/return_button_non_activated.png"
+
 
 ## Зображення, використане для налаштувань
 define gui.settings_background = "gui/bg_settings_mac_transperent.png"
