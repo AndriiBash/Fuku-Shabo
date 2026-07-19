@@ -93,7 +93,7 @@ define gui.name_text_size = 45
 
 
 ## Розмір тексту в інтерфейсі гри.
-define gui.interface_text_size = 33
+define gui.interface_text_size = 25
 
 
 ## Розмір міток в інтерфейсі гри.
@@ -111,6 +111,8 @@ define gui.title_text_size = 75
 
 ## Вікна: налаштування, навігація, завантаження і тд ###########################
 
+
+define gui.return_button_cover = "gui/return_button.png"
 
 ## Зображення, використане для налаштувань
 define gui.settings_background = "gui/bg_settings_mac_transperent.png"
@@ -150,7 +152,7 @@ transform blur_text:
 ## Стиль назви гри
 style game_title_text:
     font "anotherdangerslantedrusbyl.otf"
-    size 80
+    size 65
     color "#f4d5ce"
     outlines [(5, "#000000", 10, 10)]
     bold True
@@ -158,8 +160,8 @@ style game_title_text:
 
 ## Зображення, використані для головного меню і меню гри.
 define gui.main_menu_background = "gui/bg_menu_background.png"
-define gui.main_menu_laptop = "gui/bg_menu_laptop.png"
-
+define gui.main_menu = "gui/bg_menu.png"
+define gui.menu_cat_sticker = "gui/cat_sticker.png"
 
 
 ## Діалог ######################################################################

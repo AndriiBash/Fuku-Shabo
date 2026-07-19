@@ -328,7 +328,12 @@ screen navigation():
 
 
     ## Додає зображення субменю для навігації
-    if not any(renpy.get_screen(s) is not None for s in ["about","save","load","history"]):
+    #if not any(renpy.get_screen(s) is not None for s in ["about","save","load","history"]):
+    #    add gui.navigation_big_background
+    #else:
+    #    add gui.navigation_small_background
+    
+    if main_menu and not dim_buttons:
         add gui.navigation_big_background
     else:
         add gui.navigation_small_background
@@ -336,8 +341,8 @@ screen navigation():
     
     vbox:
         style_prefix "navigation"
-        xoffset 63
-        yalign 0.5
+        xalign 0.099
+        yalign 0.54
         spacing 2
 
 
@@ -378,6 +383,28 @@ style navigation_button_text:
 
 
 
+## Екран з назвою гри ##########################################################
+
+
+define titlex = 0.4
+define titley = 0.325
+
+
+screen game_title():
+    text gui.game_title:
+        style "game_title_text"
+        xalign titlex
+        yalign titley
+
+
+screen game_title_blur():
+    text gui.game_title:
+        style "game_title_text"
+        xalign titlex
+        yalign titley
+        at blur_text
+
+
 ## Екран головного меню ########################################################
 ##
 ## Використовується для показу головного меню під час запуску Ren'Py.
@@ -394,13 +421,11 @@ screen main_menu():
 
     ## Додає зображення головного меню
     add gui.main_menu_background
+    add gui.main_menu
 
 
     ## Додає текст назви гри в головне меню
-    text gui.game_title:
-        style "game_title_text"
-        xalign 0.6
-        yalign 0.2
+    use game_title
 
 
     ## Оператор "use" включає інший екран усередині цього. 
@@ -408,7 +433,7 @@ screen main_menu():
     use navigation
 
 
-    add gui.main_menu_laptop
+    add gui.menu_cat_sticker
 
 
     if gui.show_name:
@@ -469,29 +494,22 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
     style_prefix "game_menu"
 
 
-    ## Додає фон по слоях з блюром    
+    ## Додає фон й назву гри
     add gui.main_menu_background:
         blur gui.blur_intense
-    #add gui.main_menu_laptop
-
-
-    ## Додає назву гри на фон
-    text gui.game_title:
-        style "game_title_text"
-        xalign 0.6
-        yalign 0.193
-        at blur_text
+    add gui.main_menu
+    use game_title_blur
 
 
     ## Додає зображення субменю для налаштувань або для інших пунктів
-    if renpy.get_screen("preferences"):
-        add gui.settings_background
-    else:
-        add gui.about_save_load_background
-
+    #if renpy.get_screen("preferences"):
+    #    add gui.settings_background
+    #else:
+    #    add gui.about_save_load_background
+    add gui.about_save_load_background
 
     use navigation
-    add gui.main_menu_laptop
+    add gui.menu_cat_sticker
 
 
     frame:
@@ -544,9 +562,12 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
                     transclude
 
 
-    textbutton _("ПОВЕРНУТИСЯ"):
+    textbutton _(""):
         style "return_button"
-        yalign 0.85
+        xsize 50
+        ysize 25
+        xalign 0.161
+        yalign 0.308
         action Return()
 
 
@@ -564,7 +585,10 @@ style game_menu_label is gui_label
 style game_menu_label_text is gui_label_text
 
 
-style return_button is navigation_button
+style return_button:
+    xsize 40
+    ysize 25
+    hover_background gui.return_button_cover
 style return_button_text is navigation_button_text
 
 
