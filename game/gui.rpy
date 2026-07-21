@@ -93,7 +93,7 @@ define gui.name_text_size = 45
 
 
 ## Розмір тексту в інтерфейсі гри.
-define gui.interface_text_size = 25
+define gui.interface_text_size = 23
 
 
 ## Розмір міток в інтерфейсі гри.
@@ -105,7 +105,7 @@ define gui.notify_text_size = 24
 
 
 ## Розмір назви гри.
-define gui.title_text_size = 75
+define gui.title_text_size = 65
 
 
 
@@ -142,20 +142,18 @@ define gui.game_title =_("""111111111111111111111111111
 
 
 ## Інтенсивнісь блюру
-define gui.blur_intense = 15
+define gui.blur_intense = 12
 
 
 ## Стиль для блюру тексту головного меню
 transform blur_text:
-        #blur gui.blur_intense
-        # для меншої пікселізації
-        blur 6
+        blur 5
 
 
 ## Стиль назви гри
 style game_title_text:
     font "anotherdangerslantedrusbyl.otf"
-    size 65
+    size gui.title_text_size
     color "#f4d5ce"
     outlines [(5, "#000000", 10, 10)]
     bold True

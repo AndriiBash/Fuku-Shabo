@@ -329,30 +329,27 @@ screen navigation():
 
 
     ## Додає зображення субменю для навігації
-    #if not any(renpy.get_screen(s) is not None for s in ["about","save","load","history"]):
-    #    add gui.navigation_big_background
-    #else:
-    #    add gui.navigation_small_background
-    
     if main_menu and not dim_buttons:
         add gui.navigation_big_background
     else:
         add gui.navigation_small_background
-    
     add gui.menu_cat_sticker
+
 
     vbox:
         style_prefix "navigation"
-        xalign 0.099
-        yalign 0.54
+        xpos 0.1396
+        xanchor 0.5
         spacing 2
 
 
         if main_menu:
-            textbutton _("ПОЧАТИ") action Start() 
+            textbutton _("ПОЧАТИ") action Start()
+            yalign 0.65
         else:
             textbutton _("ІСТОРІЯ") action ShowMenu("history") 
-            textbutton _("ЗБЕРЕГТИ") action ShowMenu("save") 
+            textbutton _("ЗБЕРЕГТИ") action ShowMenu("save")
+            yalign 0.625
 
 
         textbutton _("ЗАВАНТАЖИТИ") action ShowMenu("load") 
@@ -364,8 +361,12 @@ screen navigation():
         elif not main_menu:
             textbutton _("ГОЛОВНЕ МЕНЮ") action MainMenu()
 
-        textbutton _("ПРО ГРУ") action ShowMenu("about") 
-        textbutton _("ВИЙТИ") action Quit(confirm=   main_menu) 
+        textbutton _("ПРО ГРУ") action ShowMenu("about")
+        if main_menu:
+            null height 130
+        else:
+            null height 80
+        textbutton _("ВИЙТИ") action Quit(confirm=   main_menu)
 
 
 style navigation_button is gui_button
