@@ -72,6 +72,7 @@ style vscrollbar:
     xsize gui.scrollbar_size
     base_bar Frame("gui/scrollbar/vertical_[prefix_]bar.png", gui.vscrollbar_borders, tile=gui.scrollbar_tile)
     thumb Frame("gui/scrollbar/vertical_[prefix_]thumb.png", gui.vscrollbar_borders, tile=gui.scrollbar_tile)
+    thumb_offset 4
 
 
 style slider:
@@ -360,13 +361,11 @@ screen navigation():
 
         if _in_replay:
             textbutton _("ЗАКІНЧИТИ ПОВТОР") action EndReplay(confirm=True)
-
-
         elif not main_menu:
             textbutton _("ГОЛОВНЕ МЕНЮ") action MainMenu()
 
         textbutton _("ПРО ГРУ") action ShowMenu("about") 
-        textbutton _("ВИЙТИ") action Quit(confirm=not main_menu) 
+        textbutton _("ВИЙТИ") action Quit(confirm=   main_menu) 
 
 
 style navigation_button is gui_button
@@ -387,23 +386,15 @@ style navigation_button_text:
 ## Екран з назвою гри ##########################################################
 
 
-define titlex = 0.4
-define titley = 0.325
 
-
-screen game_title():
+screen game_title(blur):
     text gui.game_title:
         style "game_title_text"
-        xalign titlex
-        yalign titley
+        xalign 0.4
+        yalign 0.325
+        if blur:
+            at blur_text
 
-
-screen game_title_blur():
-    text gui.game_title:
-        style "game_title_text"
-        xalign titlex
-        yalign titley
-        at blur_text
 
 
 ## Екран головного меню ########################################################
@@ -426,7 +417,7 @@ screen main_menu():
 
 
     ## Додає текст назви гри в головне меню
-    use game_title
+    use game_title(blur=False)
 
 
     ## Оператор "use" включає інший екран усередині цього. 
@@ -488,7 +479,9 @@ style main_menu_version:
 
 ## Параметр "scroll" може мати значення "None" або один з "viewport" чи "vpgrid".
 ## Цей екран призначений для використання з одним або декількома об’єктами, які включені (розміщені) всередині нього.
-screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
+screen game_menu(title, scroll=None, yinitial=0.0, spacing=0,frame_xpos=None,frame_ypos=None,frame_xsize=None, frame_ysize=None):
+    
+    
     style_prefix "game_menu"
 
 
@@ -496,7 +489,7 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
     add gui.main_menu_background:
         blur gui.blur_intense
     add gui.main_menu
-    use game_title_blur
+    use game_title(blur=True)
 
 
     ## Додає зображення субменю
@@ -509,6 +502,15 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
     frame:
         style "game_menu_outer_frame"
 
+        if frame_xpos is not None:
+            xpos frame_xpos
+        if frame_ypos is not None:
+            ypos frame_ypos
+        if frame_xsize is not None:
+            xsize frame_xsize
+        if frame_ysize is not None:
+            ysize frame_ysize
+        
         hbox:
 
             ## Місце для розділу навігації.
@@ -531,7 +533,6 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
 
                         vbox:
                             spacing spacing
-
                             transclude
 
                 elif scroll == "vpgrid":
@@ -548,7 +549,6 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
                         side_yfill True
 
                         spacing spacing
-
                         transclude
 
                 else:
@@ -562,7 +562,7 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
         yalign 0.265
 
 
-    textbutton _(""):
+    textbutton(""):
         style "return_button"
         xsize 50
         ysize 25
@@ -581,6 +581,9 @@ style game_menu_content_frame is empty
 style game_menu_viewport is gui_viewport
 style game_menu_side is gui_side
 style game_menu_scrollbar is gui_vscrollbar
+style game_menu_vscrollbar:
+    unscrollable gui.unscrollable
+    xoffset -495
 style game_menu_label is gui_label
 style game_menu_label_text is gui_label_text
 
@@ -651,17 +654,20 @@ screen about():
 
     ## Цей оператор "use" включає екран "game_menu" всередину цього екрану.
     ## Потім дочірній елемент "vbox" включається всередину "viewport" всередині екрана "game_menu".
-    use game_menu(_("Про гру"), scroll="viewport"):
+    use game_menu(_("Про гру"), scroll="viewport",frame_xpos=-85, frame_ypos=78,frame_ysize=820):
         
         style_prefix "about"
 
         vbox:
-
+            ## Обмеження вікна по горизонталі
+            xmaximum 900
+            
             ## Значення "gui.about" зазвичай задається у файлі options.rpy.
             if gui.about:
                 text "[gui.about!t]\n"
 
             text _("Зроблено з {a=https://www.renpy.org/}Ren'Py{/a} [renpy.version_only].\n\n[renpy.license!t]")
+               
 
 
 style about_label is gui_label
@@ -1135,7 +1141,7 @@ screen confirm(message, yes_action, no_action):
     modal True
     zorder 200
     style_prefix "confirm"
-    add "gui/overlay/confirm.png"
+    add "gui/confirm.png"
 
     frame:
         vbox:

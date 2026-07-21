@@ -434,7 +434,7 @@ define gui.slider_borders = Borders(6, 6, 6, 6)
 
 ## Вертикальні межі.
 define gui.vbar_borders = Borders(6, 6, 6, 6)
-define gui.vscrollbar_borders = Borders(6, 6, 6, 6)
+define gui.vscrollbar_borders = Borders(6,6,6,6)
 define gui.vslider_borders = Borders(6, 6, 6, 6)
 
 
