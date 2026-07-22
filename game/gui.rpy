@@ -107,9 +107,19 @@ define gui.notify_text_size = 24
 ## Розмір назви гри.
 define gui.title_text_size = 65
 
+## Розміри #####################################################################
 
 
-## Вікна: налаштування, навігація, завантаження і тд ###########################
+define gui.ygame_menu_size = 820
+define gui.vscroll_xpose_about = 900
+define gui.vscroll_xpose_history = 1050
+define gui.vscroll_xpose_preferences = 815
+define gui.vscroll_ysize = 580
+
+
+
+## Зображення Вікон: налаштування, навігація, завантаження і тд ################
+
 
 
 ##Зображення для кнопки повернення
@@ -453,16 +463,16 @@ define config.history_length = 250
 
 
 ## Висота рядку на екрані історії або "None", щоб зробити висоту змінною шляхом швидкодії.
-define gui.history_height = 210
+define gui.history_height = None
 
 
 ## Додатковий простір для додавання між рядком на екрані історії.
-define gui.history_spacing = 0
+define gui.history_spacing = 30
 
 
 ## Позиція, ширина та вирівнювання тексту з іменем персонажа.
 define gui.history_name_xpos = 233
-define gui.history_name_ypos = 0
+define gui.history_name_ypos = -9
 define gui.history_name_width = 233
 define gui.history_name_xalign = 1.0
 

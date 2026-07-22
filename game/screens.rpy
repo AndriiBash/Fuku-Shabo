@@ -478,11 +478,10 @@ style main_menu_version:
 
 
 
-## Параметр "scroll" може мати значення "None" або один з "viewport" чи "vpgrid".
+## Параметр "scroll" може мати значення "None" або "viewport"
 ## Цей екран призначений для використання з одним або декількома об’єктами, які включені (розміщені) всередині нього.
-screen game_menu(title, scroll=None, yinitial=0.0, spacing=0,frame_xpos=None,frame_ypos=None,frame_xsize=None, frame_ysize=None):
-    
-    
+screen game_menu(title, scroll=None, yinitial=0.0, spacing=0,frame_xpos=None,frame_xsize=None):
+
     style_prefix "game_menu"
 
 
@@ -505,13 +504,11 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0,frame_xpos=None,fra
 
         if frame_xpos is not None:
             xpos frame_xpos
-        if frame_ypos is not None:
-            ypos frame_ypos
         if frame_xsize is not None:
             xsize frame_xsize
-        if frame_ysize is not None:
-            ysize frame_ysize
-        
+        ypos 78
+        ysize gui.ygame_menu_size
+
         hbox:
 
             ## Місце для розділу навігації.
@@ -523,37 +520,37 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0,frame_xpos=None,fra
 
                 if scroll == "viewport":
 
-                    viewport:
-                        yinitial yinitial
-                        scrollbars "vertical"
-                        mousewheel True
-                        draggable True
-                        pagekeys True
+                    fixed:
 
-                        side_yfill True
+                        viewport:
+                            id "vp"
 
-                        vbox:
-                            spacing spacing
-                            transclude
+                            yinitial yinitial
 
-                elif scroll == "vpgrid":
+                            mousewheel True
+                            draggable True
+                            pagekeys True
 
-                    vpgrid:
-                        cols 1
-                        yinitial yinitial
+                            xsize 1500
+                            ysize 580
 
-                        scrollbars "vertical"
-                        mousewheel True
-                        draggable True
-                        pagekeys True
+                            vbox:
+                                spacing spacing
+                                transclude
 
-                        side_yfill True
 
-                        spacing spacing
-                        transclude
+                        vbar:
+                            value YScrollValue("vp")
+                            if renpy.get_screen("about"):
+                                xpos gui.vscroll_xpose_about
+                            elif renpy.get_screen("history"):
+                                xpos gui.vscroll_xpose_history
+                            else:
+                                xpos gui.vscroll_xpose_preferences
+                            ypos 0
 
+                            ysize gui.vscroll_ysize
                 else:
-
                     transclude
 
 
@@ -584,7 +581,6 @@ style game_menu_side is gui_side
 style game_menu_scrollbar is gui_vscrollbar
 style game_menu_vscrollbar:
     unscrollable gui.unscrollable
-    xoffset -495
 style game_menu_label is gui_label
 style game_menu_label_text is gui_label_text
 
@@ -614,10 +610,6 @@ style game_menu_content_frame:
 
 style game_menu_viewport:
     xsize 1380
-
-
-style game_menu_vscrollbar:
-    unscrollable gui.unscrollable
 
 
 style game_menu_side:
@@ -655,7 +647,7 @@ screen about():
 
     ## Цей оператор "use" включає екран "game_menu" всередину цього екрану.
     ## Потім дочірній елемент "vbox" включається всередину "viewport" всередині екрана "game_menu".
-    use game_menu(_("Про гру"), scroll="viewport",frame_xpos=-85, frame_ypos=78,frame_ysize=820):
+    use game_menu(_("Про гру"), scroll="viewport",frame_xpos=-85):
         
         style_prefix "about"
 
@@ -1035,7 +1027,7 @@ screen history():
     ## Уникання прогнозування цього екрану, оскільки він може бути дуже великим.
     predict False
 
-    use game_menu(_("Історія"), scroll=("vpgrid" if gui.history_height else "viewport"), yinitial=1.0, spacing=gui.history_spacing):
+    use game_menu(_("Історія"), scroll="viewport", yinitial=1.0, spacing=gui.history_spacing, frame_xpos=-235):
 
         style_prefix "history"
 
@@ -1043,7 +1035,7 @@ screen history():
 
             window:
 
-
+               
                 ## Тут усе буде показано правильно, якщо "history_height" дорівнює "None".
                 has fixed:
                     yfit True
@@ -1061,6 +1053,8 @@ screen history():
 
 
                 $ what = renpy.filter_text_tags(h.what, allow=gui.history_allow_tags)
+
+                   
                 text what:
                     substitute False
 
