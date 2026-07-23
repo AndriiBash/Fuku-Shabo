@@ -131,18 +131,6 @@ define gui.game_title =_("""111111111111111111111111111
 ## Інтенсивність блюру фону під час показу фону для завантаження/збереження/історії/про гру.
 define gui.blur_intense = 12
 
-## Трансформація для розмиття тексту назви гри (застосовується через "at blur_text").
-transform blur_text:
-    blur 5
-
-## Стиль назви гри на головному меню.
-style game_title_text:
-    font "anotherdangerslantedrusbyl.otf"
-    size gui.title_text_size
-    color "#f4d5ce"
-    outlines [(5, "#000000", 10, 10)]
-    bold True
-
 
 ################################################################################
 ## Діалог
@@ -337,7 +325,7 @@ define gui.history_spacing = 30
 
 ## Позиція, ширина, вирівнювання імені персонажа в історії.
 define gui.history_name_xpos = 233
-define gui.history_name_ypos = -9
+define gui.history_name_ypos = 30
 define gui.history_name_width = 233
 define gui.history_name_xalign = 1.0
 

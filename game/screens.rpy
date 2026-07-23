@@ -33,13 +33,6 @@ style button_text is gui_text:
     properties gui.text_properties("button")
     yalign 0.5
 
-style game_title_text:
-    font "anotherdangerslantedrusbyl.otf"
-    size gui.title_text_size
-    color "#f4d5ce"
-    outlines [(5, "#000000", 10, 10)]
-    bold True
-
 style label_text is gui_text:
     properties gui.text_properties("label", accent=True)
 
@@ -75,36 +68,6 @@ style vslider:
 style frame:
     padding gui.frame_borders.padding
     background Frame("gui/frame.png", gui.frame_borders, tile=gui.frame_tile)
-
-################################################################################
-## Трансформації
-################################################################################
-
-
-## Трансформація для розмиття тексту назви гри (застосовується через "at blur_text").
-transform blur_text:
-    blur 5
-
-## Ця трансформація використовується для блимання стрілок одна за одною.
-transform delayed_blink(delay, cycle):
-    alpha .5
-    pause delay
-
-    block:
-        linear .2 alpha 1.0
-        pause .2
-        linear .2 alpha 0.5
-        pause (cycle - .4)
-        repeat
-
-
-## Ця трансформація використовується для появи сповіщення
-transform notify_appear:
-    on show:
-        alpha 0
-        linear .25 alpha 1.0
-    on hide:
-        linear .5 alpha 0.0
 
 
 ################################################################################
@@ -363,6 +326,16 @@ screen game_title(blur):
         if blur:
             at blur_text
 
+style game_title_text:
+    font "anotherdangerslantedrusbyl.otf"
+    size gui.title_text_size
+    color "#f4d5ce"
+    outlines [(5, "#000000", 10, 10)]
+    bold True
+
+## Трансформація для розмиття тексту назви гри (застосовується через "at blur_text").
+transform blur_text:
+    blur 5
 
 ## Екран головного меню ########################################################
 ##
@@ -877,24 +850,35 @@ screen history():
         style_prefix "history"
 
         for h in _history_list:
-            window:
+            
 
-                ## Тут усе буде показано правильно, якщо "history_height" дорівнює "None".
-                has fixed:
-                    yfit True
+            frame:
+                background Frame("gui/history_texture.png", 40, 40)
 
-                if h.who:
-                    label h.who:
-                        style "history_name"
+                xsize 900
+                xpos 135
+
+                padding (40, 10)
+
+                vbox:
+                    spacing 0
+                    ypos -5
+                    if h.who:
+                        text h.who + ":":
+                            yalign 0.5
+                            textalign 0.5
+                            color "#00c8e8"
+                            size 35
+
+                    $ what = renpy.filter_text_tags(h.what, allow=gui.history_allow_tags)
+
+                    text what:
+                        yalign 0.5
+                        xalign 0.5
+                        textalign 0.5
+                        xmaximum 840
                         substitute False
 
-                        ## Бере колір тексту "who" з "Character", якщо він заданий.
-                        if "color" in h.who_args:
-                            text_color h.who_args["color"]
-
-                $ what = renpy.filter_text_tags(h.what, allow=gui.history_allow_tags)
-                text what:
-                    substitute False
 
         if not _history_list:
             label _("Історія діалогу порожня.")
@@ -911,27 +895,20 @@ style history_label is gui_label
 style history_label_text is gui_label_text
 
 style history_window:
-    xfill True
-    ysize gui.history_height
+    xfill False
+    yfill False 
+    ysize None
 
 style history_name:
     xpos gui.history_name_xpos
     xanchor gui.history_name_xalign
-    ypos gui.history_name_ypos
-    xsize gui.history_name_width
+    textalign 0.5
 
 style history_name_text:
     min_width gui.history_name_width
     textalign gui.history_name_xalign
 
-style history_text:
-    xpos gui.history_text_xpos
-    ypos gui.history_text_ypos
-    xanchor gui.history_text_xalign
-    xsize gui.history_text_width
-    min_width gui.history_text_width
-    textalign gui.history_text_xalign
-    layout ("subtitle" if gui.history_text_xalign else "tex")
+
 
 style history_label:
     xfill True
@@ -1020,6 +997,17 @@ screen skip_indicator():
             text "▸" at delayed_blink(0.2, 1.0) style "skip_triangle"
             text "▸" at delayed_blink(0.4, 1.0) style "skip_triangle"
 
+## Ця трансформація використовується для блимання стрілок одна за одною.
+transform delayed_blink(delay, cycle):
+    alpha .5
+    pause delay
+
+    block:
+        linear .2 alpha 1.0
+        pause .2
+        linear .2 alpha 0.5
+        pause (cycle - .4)
+        repeat
 
 style skip_frame is empty
 style skip_text is gui_text
@@ -1052,6 +1040,13 @@ screen notify(message):
         text "[message!tq]"
     timer 3.25 action Hide('notify')
 
+## Ця трансформація використовується для появи сповіщення
+transform notify_appear:
+    on show:
+        alpha 0
+        linear .25 alpha 1.0
+    on hide:
+        linear .5 alpha 0.0
 
 style notify_frame is empty
 style notify_text is gui_text
